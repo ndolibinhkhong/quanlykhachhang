@@ -12,7 +12,7 @@
 <div>
     
 
-<div style="width:350px; margin: auto;margin-top: 100px">
+<div style="width:350px; margin: auto;margin-top: 100px; padding: 20px; background: #ccc">
     <div class="w3-container w3-blue">
         <h2>Đăng nhập</h2>
     </div>
