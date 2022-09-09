@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
+use App\Models\KhachHang;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,11 +44,21 @@ Route::post('/login', function (Request $request) {
 })->name('login.post');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $khachs = KhachHang::all();
+    return view('dashboard', compact("khachs"));
 })->name('dashboard.get')->middleware('auth');
 
 
-Route::post('/dashboard', function () {
-    return 1;
+Route::post('/dashboard', function (Request $request) {
+    $name = $request->ip_name;
+    $phone = $request->ip_phone;
+    $address = $request->ip_address;
+    $khach_hang = new KhachHang;
+    $khach_hang->name = $name;
+    $khach_hang->phone = $phone;
+    $khach_hang->address = $address;
+    $khach_hang->save();
+
+    return back()->with(['p_message'=>"[Thêm thành công!]"]);
 })->name('dashboard.post')->middleware('auth');
 
