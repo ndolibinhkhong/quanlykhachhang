@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +19,25 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/login', function () {
+    return view('login');
+})->name('login.get');
+
+Route::post('/login', function (Request $request) {
+    $email = $request->ip_email;
+    $password = $request->ip_password;
+
+    $user = array(
+        'email' => $email,
+        'password' => $password
+    );
+
+    if (Auth::guard()->attempt($user)){
+        return "đúng";
+    }
+    else{
+        return back()->with(['p_login_message'=>"[Thông tin không chính xác!]"]);
+    }
+})->name('login.post');
+
