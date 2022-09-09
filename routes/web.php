@@ -34,10 +34,19 @@ Route::post('/login', function (Request $request) {
     );
 
     if (Auth::guard()->attempt($user)){
-        return "đúng";
+        return redirect()->route("dashboard.get");
     }
     else{
         return back()->with(['p_login_message'=>"[Thông tin không chính xác!]"]);
     }
 })->name('login.post');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard.get')->middleware('auth');
+
+
+Route::post('/dashboard', function () {
+    return 1;
+})->name('dashboard.post')->middleware('auth');
 
