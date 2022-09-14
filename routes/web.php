@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 use App\Models\KhachHang;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,20 +37,20 @@ Route::post('/login', function (Request $request) {
     );
 
     if (Auth::guard()->attempt($user)){
-        return redirect()->route("dashboard.get");
+        return redirect()->route("khachhang.get");
     }
     else{
         return back()->with(['p_login_message'=>"[Thông tin không chính xác!]"]);
     }
 })->name('login.post');
 
-Route::get('/dashboard', function () {
+Route::get('/dashboard/khachhang', function () {
     $khachs = KhachHang::all();
-    return view('dashboard', compact("khachs"));
-})->name('dashboard.get')->middleware('auth');
+    return view('khachhang', compact("khachs"));
+})->name('khachhang.get')->middleware('auth');
 
 
-Route::post('/dashboard', function (Request $request) {
+Route::post('/dashboard/khachhang', function (Request $request) {
     $name = $request->ip_name;
     $phone = $request->ip_phone;
     $address = $request->ip_address;
@@ -60,5 +61,23 @@ Route::post('/dashboard', function (Request $request) {
     $khach_hang->save();
 
     return back()->with(['p_message'=>"[Thêm thành công!]"]);
-})->name('dashboard.post')->middleware('auth');
+})->name('khachhang.post')->middleware('auth');
 
+
+Route::get('/dashboard/taikhoan', function () {
+    $taikhoans = User::all();
+    return view('taikhoan', compact("taikhoans"));
+})->name('taikhoan.get')->middleware('auth');
+
+Route::post('/dashboard/taikhoan', function (Request $request) {
+    $name = $request->ip_name;
+    $email = $request->ip_email;
+    $password = $request->ip_password;
+    $user = new User;
+    $user->name = $name;
+    $user->email = $email;
+    $user->password = bcrypt($password);
+    $user->save();
+
+    return back()->with(['p_message'=>"[Thêm thành công!]"]);
+})->name('taikhoan.post')->middleware('auth');

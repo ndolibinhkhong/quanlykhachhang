@@ -9,9 +9,12 @@
     
 </head>
 <body>
-    
+<div class="w3-bar w3-black">
+  <a href="{{route('khachhang.get')}}" class="w3-bar-item w3-button">Khách hàng</a>
+  <a href="{{route('taikhoan.get')}}" class="w3-bar-item w3-button">Tài khoản</a>
+</div>
 <div class="w3-container">
-    <h2>Danh sách khách hàng  <button onclick="openModal();" class="w3-button w3-green w3-large">Thêm mới</button></h2>
+    <h2>Danh sách Khách hàng  <button onclick="openModal();" class="w3-button w3-green w3-large">Thêm mới</button></h2>
     <p style="text-align: center; color: blue;">{{Session::get('p_message')}}</p>
     <table class="w3-table-all">
         <thead>
@@ -44,7 +47,7 @@
         <div class="w3-center"><br>
             <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
         </div>
-        <form class="w3-container" method="post" action="{{route('dashboard.post')}}">
+        <form class="w3-container" method="post" action="{{route('khachhang.post')}}">
             <div class="w3-section">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <label><b>Họ tên</b></label>
