@@ -22,6 +22,7 @@
             <th>Họ tên</th>
             <th>Di động</th>
             <th>Địa chỉ</th>
+            <th>Thao tác</th>
         </tr>
         </thead>
         <tbody>
@@ -35,6 +36,7 @@
                     <td>{{$khach->name}}</td>
                     <td>{{$khach->phone}}</td>
                     <td>{{$khach->address}}</td>
+                    <td><button onclick="openModalCapnhat({{$khach}});">Cập nhật</button></td>
                 </tr>
                 @endforeach
             @endif
@@ -49,7 +51,8 @@
         </div>
         <form class="w3-container" method="post" action="{{route('khachhang.post')}}">
             <div class="w3-section">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
+                <input type="hidden" id="ip_id" name="ip_id">
                 <label><b>Họ tên</b></label>
                 <input class="w3-input w3-border w3-margin-bottom" type="text" id="ip_name" name="ip_name" required maxlength="255">
                 <label><b>Di động</b></label>
@@ -65,11 +68,22 @@
   <script>
     function openModal(){
         document.getElementById('id01').style.display='block';
+        document.getElementById('ip_id').value = "0";
         document.getElementById('ip_name').value = "";
         document.getElementById('ip_phone').value = "";
         document.getElementById('ip_address').value = "";
 
     }
+
+    function openModalCapnhat(data){
+        document.getElementById('id01').style.display='block';
+        document.getElementById('ip_id').value = data.id;
+        document.getElementById('ip_name').value = data.name;
+        document.getElementById('ip_phone').value = data.phone;
+        document.getElementById('ip_address').value = data.address;
+
+    }
+
   </script>
 
 </body>

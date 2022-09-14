@@ -51,16 +51,26 @@ Route::get('/dashboard/khachhang', function () {
 
 
 Route::post('/dashboard/khachhang', function (Request $request) {
+    $id = $request->ip_id;
     $name = $request->ip_name;
     $phone = $request->ip_phone;
     $address = $request->ip_address;
-    $khach_hang = new KhachHang;
-    $khach_hang->name = $name;
-    $khach_hang->phone = $phone;
-    $khach_hang->address = $address;
-    $khach_hang->save();
-
-    return back()->with(['p_message'=>"[Thêm thành công!]"]);
+    if($id == 0){
+        $khach_hang = new KhachHang;
+        $khach_hang->name = $name;
+        $khach_hang->phone = $phone;
+        $khach_hang->address = $address;
+        $khach_hang->save();
+        return back()->with(['p_message'=>"[Thêm thành công!]"]);
+    }
+    else{
+        $khach_hang = KhachHang::find($id);
+        $khach_hang->name = $name;
+        $khach_hang->phone = $phone;
+        $khach_hang->address = $address;
+        $khach_hang->update();
+        return back()->with(['p_message'=>"[Cập nhật thành công!]"]);
+    }
 })->name('khachhang.post')->middleware('auth');
 
 
